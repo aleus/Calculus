@@ -2,29 +2,64 @@
 
 namespace sp {
 
-void UndoStack::undo()
+void UndoStack::add(CommandPtr && command)
 {
-}
+    ++_index;
+    _stack.resize(_index + 1);
+    _stack[_index] = std::move(command);
 
-//------------------------------------------------------------------------------
-void UndoStack::redo()
-{
-
+    emit canUndoChanged();
+    emit canRedoChanged();
 }
 
 //------------------------------------------------------------------------------
 bool UndoStack::canUndo()
 {
-    // Debug!!! Реализовать
-    return false;
+    return _index > -1;
 }
 
 //------------------------------------------------------------------------------
 bool UndoStack::canRedo()
 {
-    // Debug!!! Реализовать
-    return false;
+    return _index + 1 < static_cast<int>(_stack.size());
 }
 
+//------------------------------------------------------------------------------
+void UndoStack::undo()
+{
+    if (canUndo()) {
+        _stack[_index]->undo();
+        --_index;
+        emit canRedoChanged();
+
+        if (_index < 0) {
+            emit canUndoChanged();
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
+void UndoStack::redo()
+{
+    if (canRedo()) {
+        _stack[_index+1]->redo();
+        ++_index;
+        emit canUndoChanged();
+
+        if (_index+1 >= static_cast<int>(_stack.size())) {
+            emit canRedoChanged();
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
+void UndoStack::clear()
+{
+    _stack.clear();
+    _index = -1;
+
+    emit canUndoChanged();
+    emit canRedoChanged();
+}
 
 } // namespace sp

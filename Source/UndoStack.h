@@ -1,9 +1,6 @@
 /// @author M. A. Serebrennikov
 #pragma once
 
-#ifndef UNDOSTACK_H
-#define UNDOSTACK_H
-
 #include "Command.h"
 
 #include <QObject>
@@ -14,7 +11,7 @@ namespace sp {
 #define UndoStackI UndoStackI::instance();
 
 /***************************************************************************//**
- * @brief CommandManager хранит стек комманд. Позволяет отменить и восстановить комманду
+ * @brief UndoStack хранит стек комманд для отмены.
  ******************************************************************************/
 class UndoStack: public QObject
 {
@@ -24,17 +21,8 @@ class UndoStack: public QObject
     Q_PROPERTY(bool canRedo READ canRedo NOTIFY canRedoChanged)
 
     public:
-        UndoStack() = default;
-
         /** Добавляет в конец стека команду. */
-        template<class T>
-        void pushBack(T && command);
-
-        /** Отменяет последнюю команду. */
-        void undo();
-
-        /** Повторяет последнюю отменённую команду. */
-        void redo();
+        void add(CommandPtr && command);
 
         /** Возвращает true, если можно отменить команду. */
         bool canUndo();
@@ -42,17 +30,22 @@ class UndoStack: public QObject
         /** Возвращает true, если можно вернуть отменённую комунду. */
         bool canRedo();
 
+        /** Отменяет последнюю команду. */
+        void undo();
+
+        /** Повторяет последнюю отменённую команду. */
+        void redo();
+
+        /** Очищает стек отмен. */
+        void clear();
+
     signals:
         void canUndoChanged();
         void canRedoChanged();
 
     private:
         std::vector<CommandPtr> _stack;
-        size_t _index = 0;
+        int _index = -1;
 };
 
 } // namespace sp
-
-#include "UndoStack.hpp"
-
-#endif

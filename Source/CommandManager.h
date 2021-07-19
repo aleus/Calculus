@@ -3,16 +3,21 @@
 
 #include "CalcEntity.h"
 #include "Command.h"
+#include "UndoStack.h"
 
 #include <memory>
 #include <vector>
 
 namespace sp {
 
-class CalcManager;
+/** Короткое обращение к синглетону CommandManager. */
+#define CommandManagerI CommandManager::instance()
 
 /***************************************************************************//**
- * @brief CommandManager class.
+ * @brief CommandManager кладёт команды в стек отмен, а также отправляет
+ * на расчёт в Calc, если команда затронула сущности.
+
+ * @sa Command, UndoStack, Calc
  ******************************************************************************/
 class CommandManager
 {
@@ -20,13 +25,19 @@ class CommandManager
         static CommandManager & instance();
 
     private:
-        CommandManager();
+        CommandManager() = default;
 
+        /** Добавляет команду в стек отмен. Перед добавлением, выполняет redo. */
         void add(CommandPtr && command);
+
+        /**
+         * Добавляет команду в стек отмен. Перед добавлением, выполняет redo
+         * и отправляет на расчёт связанные entities.
+         */
         void add(CommandPtr && command, const std::vector<CalcEntityPtr> & entities);
 
     private:
-        std::unique_ptr<CalcManager> _calc;
+        UndoStack _undoStack;
 };
 
 } // namespace sp

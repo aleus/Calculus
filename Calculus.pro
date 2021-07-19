@@ -8,9 +8,9 @@ INCLUDEPATH += $$PWD/Source
 SOURCES += \
         $$PWD/Source/Main.cpp \
         Source/Body.cpp \
+        Source/Calc.cpp \
         Source/CalcBlock.cpp \
         Source/CalcEntity.cpp \
-        Source/CalcManager.cpp \
         Source/ChartData.cpp \
         Source/ChartItem.cpp \
         Source/ChartItemPainter.cpp \
@@ -32,9 +32,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     Source/Body.h \
+    Source/Calc.h \
     Source/CalcBlock.h \
     Source/CalcEntity.h \
-    Source/CalcManager.h \
     Source/ChartData.h \
     Source/ChartItem.h \
     Source/ChartItemPainter.h \
@@ -42,5 +42,4 @@ HEADERS += \
     Source/CommandManager.h \
     Source/Platform.h \
     Source/TypeHash.h \
-    Source/UndoStack.h \
-    Source/UndoStack.hpp
+    Source/UndoStack.h

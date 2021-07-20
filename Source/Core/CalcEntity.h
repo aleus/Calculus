@@ -1,7 +1,7 @@
 /// @author M. A. Serebrennikov
 #pragma once
 
-#include <memory>
+#include "CalcForward.h"
 
 namespace sp {
 
@@ -12,10 +12,10 @@ namespace sp {
 class CalcEntity
 {
     public:
-        virtual ~CalcEntity() = 0;
-};
+        virtual ~CalcEntity() = default;
 
-using CalcEntityPtr = std::shared_ptr<CalcEntity>;
-using CalcEntityWeak = std::weak_ptr<CalcEntity>;
+        /** Возвращает цепочку расчётных блоков для этого типа сущности. */
+        virtual CalcPipeline pipeline() const = 0;
+};
 
 } // namespace sp

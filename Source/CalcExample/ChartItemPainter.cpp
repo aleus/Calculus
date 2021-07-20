@@ -1,6 +1,7 @@
 /// @author M. A. Serebrennikov
-#include "ChartItemPainter.h"
+#include "ChartData.h"
 #include "ChartItem.h"
+#include "ChartItemPainter.h"
 
 #include <QDebug>
 
@@ -22,7 +23,7 @@ void ChartItemPainter::paint(QNanoPainter *p)
         qreal x = x0;
         qreal y = y0;
         p->moveTo(x, y);
-        for (auto point: _chartData.points()) {
+        for (auto point: _points) {
             if (!_rotate) {
                 p->lineTo(x+=dx*_xScale, _yScale*point + y);
             } else {
@@ -37,7 +38,7 @@ void ChartItemPainter::paint(QNanoPainter *p)
         qreal x = x0;
         qreal y = y0;
 
-        for (auto point: _chartData.points()) {
+        for (auto point: _points) {
             if (!_rotate) {
                 p->circle(x+=dx*_xScale, _yScale*point + y, _pointSize);
             } else {
@@ -58,7 +59,7 @@ void ChartItemPainter::synchronize(QNanoQuickItem *item)
     Q_ASSUME(chartItem);
 
     if (chartItem->dirtyFlag()) {
-        _chartData = chartItem->chartData();
+        _points = chartItem->chartData()->points();
     }
 
     _xShift = chartItem->xShift();

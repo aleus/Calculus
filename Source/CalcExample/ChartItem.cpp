@@ -1,6 +1,8 @@
 /// @author M. A. Serebrennikov
 #include "ChartItem.h"
 #include "ChartItemPainter.h"
+#include "ChartData.h"
+#include "Core/Calc.h"
 
 #include <QDebug>
 
@@ -8,9 +10,18 @@ using namespace sp;
 
 //------------------------------------------------------------------------------
 ChartItem::ChartItem(QQuickItem *parent)
-    :  QNanoQuickItem(parent)
+    : QNanoQuickItem(parent)
+    , _chartData(std::make_shared<ChartData>())
 {
     connect(this, &ChartItem::pointSizeChanged, this, &ChartItem::update);
+
+    // Debug!!! Здесь приведён пример расчёта через механизм Calc
+    {
+        const size_t debugCount = 10000;
+        _chartData->setCount(debugCount);
+
+        CalcI.calc({_chartData});
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -56,7 +67,6 @@ void ChartItem::setYScale(qreal yScale)
 //------------------------------------------------------------------------------
 void ChartItem::setPointSize(int pointSize)
 {
-    qDebug() << "Debug!!! pointSize" << pointSize;
     if (_pointSize != pointSize) {
         _pointSize = pointSize;
         emit pointSizeChanged();
@@ -70,20 +80,6 @@ void ChartItem::setRotate(bool rotate)
         _rotate = rotate;
         update();
         emit rotateChanged();
-    }
-}
-
-//------------------------------------------------------------------------------
-void ChartItem::setWellPoints(bool wellPoints)
-{
-    if (_wellPoints != wellPoints) {
-        _wellPoints = wellPoints;
-        if (_wellPoints) {
-            _chartData.makeWellPoints();
-            _dirtyFlag = true;
-        }
-        update();
-        emit wellPointsChanged();
     }
 }
 

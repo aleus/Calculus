@@ -4,7 +4,7 @@ import Rogii 1.0
 import "qrc:/"
 
 Item {
-    id: chartItemMovable
+    id: tripleChart
 
     property var currentChart: middleChart
     property alias topChart: topChart
@@ -15,7 +15,6 @@ Item {
 
     ChartItem {
         id: topChart
-        objectName: "(60B) - GRMA"
 
         height: 150*dp
         anchors {
@@ -63,9 +62,7 @@ Item {
 
     ChartItem {
         id: middleChart
-        objectName: "(60B) - RHOB"
 
-        wellPoints: true
         yShift: -200
         anchors {
             top: topChart.bottom
@@ -115,7 +112,6 @@ Item {
 
     ChartItem {
         id: rightChart
-        objectName: "(60B) - ROBB"
 
         width: 150*dp
         rotate: true
@@ -162,6 +158,7 @@ Item {
         }
     } // ChartItem { id: rightChart
 
+    // Рамка-крест
     Rectangle {
         color: "transparent"
         border {

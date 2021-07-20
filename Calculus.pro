@@ -6,18 +6,19 @@ include($$PWD/3rdparty/FramelessHelper/FramelessHelper.pri)
 
 INCLUDEPATH += $$PWD/Source
 SOURCES += \
-        $$PWD/Source/Main.cpp \
-        Source/Body.cpp \
-        Source/Calc.cpp \
-        Source/CalcBlock.cpp \
-        Source/CalcEntity.cpp \
-        Source/ChartData.cpp \
-        Source/ChartItem.cpp \
-        Source/ChartItemPainter.cpp \
-        Source/Command.cpp \
-        Source/CommandManager.cpp \
-        Source/Platform.cpp \
-        Source/UndoStack.cpp
+        Source/CalcExample/ChartData.cpp \
+        Source/CalcExample/ChartItem.cpp \
+        Source/CalcExample/ChartItemPainter.cpp \
+    Source/CalcExample/RandCalcBlock.cpp \
+    Source/CalcExample/SinCalcBlock.cpp \
+        Source/Core/Calc.cpp \
+        Source/Core/CalcBlock.cpp \
+        Source/Core/CalcEntity.cpp \
+        Source/Core/Command.cpp \
+        Source/Core/CommandManager.cpp \
+        Source/Core/Platform.cpp \
+        Source/Core/UndoStack.cpp \
+        Source/Main.cpp \
 
 RESOURCES += \
         $$PWD/Images/Images.qrc \
@@ -31,15 +32,17 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    Source/Body.h \
-    Source/Calc.h \
-    Source/CalcBlock.h \
-    Source/CalcEntity.h \
-    Source/ChartData.h \
-    Source/ChartItem.h \
-    Source/ChartItemPainter.h \
-    Source/Command.h \
-    Source/CommandManager.h \
-    Source/Platform.h \
-    Source/TypeHash.h \
-    Source/UndoStack.h
+    Source/CalcExample/ChartData.h \
+    Source/CalcExample/ChartItem.h \
+    Source/CalcExample/ChartItemPainter.h \
+    Source/CalcExample/RandCalcBlock.h \
+    Source/CalcExample/SinCalcBlock.h \
+    Source/Core/Calc.h \
+    Source/Core/CalcBlock.h \
+    Source/Core/CalcEntity.h \
+    Source/Core/CalcForward.h \
+    Source/Core/Command.h \
+    Source/Core/CommandManager.h \
+    Source/Core/Platform.h \
+    Source/Core/TypeHash.h \
+    Source/Core/UndoStack.h

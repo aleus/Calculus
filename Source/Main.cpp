@@ -1,6 +1,6 @@
 /// @author M. A. Serebrennikov
-#include "Platform.h"
-#include "ChartItem.h"
+#include "Core/Platform.h"
+#include "CalcExample/ChartItem.h"
 
 #include <WindowFramelessHelper.h>
 

@@ -1,12 +1,13 @@
 /// @author M. A. Serebrennikov
 #pragma once
 
-#include "ChartData.h"
 #include "qnanoquickitem.h"
 #include <valarray>
+#include <memory>
 
 namespace sp {
 
+class ChartData;
 class ChartItemPainter;
 
 class ChartItem : public QNanoQuickItem
@@ -19,7 +20,6 @@ class ChartItem : public QNanoQuickItem
     Q_PROPERTY(qreal yScale READ yScale WRITE setYScale NOTIFY yScaleChanged)
     Q_PROPERTY(int pointSize READ pointSize WRITE setPointSize NOTIFY pointSizeChanged)
     Q_PROPERTY(bool rotate READ rotate WRITE setRotate NOTIFY rotateChanged)
-    Q_PROPERTY(bool wellPoints READ wellPoints WRITE setWellPoints NOTIFY wellPointsChanged)
 
     public:
         ChartItem(QQuickItem *parent = nullptr);
@@ -37,8 +37,6 @@ class ChartItem : public QNanoQuickItem
         inline auto yScale() const { return _yScale; }
         inline auto rotate() const { return _rotate; }
 
-        inline auto wellPoints() const { return _wellPoints; }
-
         //----------------------------------------------------------------------
         // SET
         //----------------------------------------------------------------------
@@ -48,7 +46,6 @@ class ChartItem : public QNanoQuickItem
         void setYScale(qreal yScale);
         void setPointSize(int pointSize);
         void setRotate(bool rotate);
-        void setWellPoints(bool wellPoints);
 
         //----------------------------------------------------------------------
         // SPECIAL
@@ -71,7 +68,7 @@ class ChartItem : public QNanoQuickItem
         void wellPointsChanged();
 
     private:
-        ChartData _chartData;
+        std::shared_ptr<ChartData> _chartData;
         qreal _xShift = 0.0;
         qreal _yShift = 0.0;
         qreal _xScale = 1.0;
@@ -79,7 +76,6 @@ class ChartItem : public QNanoQuickItem
         int _pointSize = 0;
         bool _dirtyFlag = true; // Set in HelloItemPainter
         bool _rotate = false;
-        bool _wellPoints = false;
 };
 
 } // namespace sp {

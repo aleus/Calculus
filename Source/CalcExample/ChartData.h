@@ -1,21 +1,14 @@
 /// @author M. A. Serebrennikov
 #pragma once
 
-#include <QObject>
+#include "Core/CalcEntity.h"
 #include <valarray>
 
 namespace sp {
 
-class ChartData : public QObject
+class ChartData : public CalcEntity
 {
-    Q_OBJECT
-
     public:
-        ChartData();
-        ChartData(const ChartData &);
-
-        ChartData& operator = (ChartData);
-
         //----------------------------------------------------------------------
         // GET
         //----------------------------------------------------------------------
@@ -23,14 +16,20 @@ class ChartData : public QObject
         inline const auto & points() const { return _points; }
 
         //----------------------------------------------------------------------
-        // SPECIAL
+        // SET
         //----------------------------------------------------------------------
-        void makeWellPoints();
+        void setCount(size_t count);
+
+        void setPoints(std::valarray<double> && points);
+        void setPoints(const std::valarray<double> & points);
+
+        //----------------------------------------------------------------------
+        // OVERRIDE
+        //----------------------------------------------------------------------
+        CalcPipeline pipeline() const override;
 
     private:
-        std::valarray<qreal> _points;
-
-        const size_t _count = 100;
+        std::valarray<double> _points;
 };
 
 } // namespace sp {

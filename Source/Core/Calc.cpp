@@ -1,8 +1,9 @@
 #include "Calc.h"
+#include "CalcBlock.h"
+#include "CalcEntity.h"
 
 #include <algorithm>
 #include <functional>
-#include <stdexcept>
 
 namespace sp {
 
@@ -11,6 +12,25 @@ Calc & Calc::instance()
 {
     static Calc result;
     return result;
+}
+
+//------------------------------------------------------------------------------
+void Calc::regPipeline(const CalcEntityPtr & entity)
+{
+    Q_ASSERT(entity);
+
+    const auto & entityRaw = *entity.get();
+    auto * entityType = &typeid(entityRaw);
+
+    regPipeline(entityType, entity->pipeline());
+}
+
+//------------------------------------------------------------------------------
+void Calc::regPipeline(const std::type_info * entityType, CalcPipeline && pipeline)
+{
+    Q_ASSERT(!_pipelines.count(entityType));
+
+    _pipelines[entityType] = std::move(pipeline);
 }
 
 //------------------------------------------------------------------------------
@@ -46,12 +66,16 @@ Calc::PipelineHash Calc::distribute(const std::vector<CalcEntityPtr> & entities)
     Calc::PipelineHash result;
 
     for (const auto & entity: entities) {
-        try {
-            const Pipeline & pipeline = _pipelines.at(&typeid(entity));
-            result[&pipeline].push_back(entity);
-        } catch (const std::out_of_range &) {
-            Q_ASSERT_X(false, "Calc", "Need to add new entity type to calc pipeline.");
-            continue;
+        const auto & entityRaw = *entity.get();
+        auto * entityType = &typeid(entityRaw);
+
+        const auto pipelineItr = _pipelines.find(entityType);
+        if (pipelineItr != _pipelines.end()) {
+            result[&pipelineItr->second].push_back(entity);
+        } else {
+            regPipeline(entityType, entity->pipeline());
+            const auto * pipeline = &_pipelines[entityType];
+            result[pipeline].push_back(entity);
         }
     }
 

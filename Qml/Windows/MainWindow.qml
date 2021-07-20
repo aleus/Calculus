@@ -40,7 +40,7 @@ Window {
         anchors.top: header.bottom
 
         FileMenu {
-            chartItem: chartItemMovable.currentChart
+            chartItem: tripleChart.currentChart
         }
         RibbonMenuItem {
             id: viewItem
@@ -57,8 +57,8 @@ Window {
         }
     }
 
-    ChartItemMovable {
-        id: chartItemMovable
+    TripleChart {
+        id: tripleChart
 
         anchors {
             top: ribbonMenu.bottom

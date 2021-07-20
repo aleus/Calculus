@@ -1,21 +1,17 @@
 /// @author M. A. Serebrennikov
 #pragma once
 
-#include <vector>
+#include "Core/CalcBlock.h"
 
 namespace sp {
 
 /***************************************************************************//**
- * @brief Body class.
+ * @brief Класс SinCalcBlock заполняет точки ChartData функцией синуса.
  ******************************************************************************/
-class Body
+class SinCalcBlock : public CalcBlock
 {
     public:
-        Body();
-
-    private:
-        std::vector<double> _measurements;
-
+        void calc(const std::vector<CalcEntityPtr> & entities) const override;
 };
 
 } // namespace sp

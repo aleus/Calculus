@@ -1,8 +1,7 @@
 /// @author M. A. Serebrennikov
 #pragma once
 
-#include "CalcBlock.h"
-#include "CalcEntity.h"
+#include "CalcForward.h"
 #include "TypeHash.h"
 
 #include <QtGlobal>
@@ -18,17 +17,17 @@ namespace sp {
  * @brief Класс Calc позволяет проводить сложные расчёты над массивом
  * сущностей CalcEntity.
  *
- * @details В начале нужно для каждого типа сущности зарегестрировать Pipeline
- * с помощью метода regPipeline. Pipeline - это последовательно выполняемые
- * расчётные блоки CalcBlock. Программист должен расположить элементы Pipeline,
- * согласно зависимости от порядка расчёта.
+ * @details Расчёты для сущностей проводятся через CalcPipeline - последовательно
+ * выполняемые расчётные блоки CalcBlock. Программист должен расположить элементы
+ * CalcPipeline в виртуальном методе CaleEneityt::pipeline, согласно зависимости
+ * от порядка расчёта.
  *
  * Кроме изначально изменённых сущностей, находятся связанные с ними сущности,
  * которые будут затронуты расчётами. И уже итоговый набор сущностей передаётся
  * на расчёт.
  *
  * В каждый CalcBlock передаётся массив сущностей, но не результат вычислений
- * предыдущего расчётного блока из Pipeline. Реализация CalcBlock должна
+ * предыдущего расчётного блока из CalcPipeline. Реализация CalcBlock должна
  * самостоятельно выбирать данные из передаваемых сущностей.
  *
  * @warning Предполагается, что основополагающие параметры не пересекаются
@@ -41,17 +40,8 @@ class Calc
         static Calc & instance();
 
         //----------------------------------------------------------------------
-        // TYPES
-        //----------------------------------------------------------------------
-        /** Конвеер расчётов. */
-        using Pipeline = std::vector<CalcBlockUPtr>;
-
-        //----------------------------------------------------------------------
         // SPECIAL
         //----------------------------------------------------------------------
-        /** Регистрирует цепочку расчётов для заданного типа сущности. */
-        void regPipeline(const std::type_info * entityType, Pipeline &&);
-
         /**
          * Запускает ковеер расчёта для сущностей. Если расчёты завершены без
          * ошибок, то возвращает true.
@@ -63,13 +53,20 @@ class Calc
         Q_DISABLE_COPY_MOVE(Calc);
 
         using PipelineHash = std::unordered_map<
-                                    const Pipeline *,
+                                    const CalcPipeline *,
                                     std::vector<CalcEntityPtr>>;
 
+        /** Распределяет сущности для расщёта между соотвествующими pipeline. */
         PipelineHash distribute(const std::vector<CalcEntityPtr> & entities);
 
+        /** Регистрирует pipeline для сущности. */
+        void regPipeline(const CalcEntityPtr & entity);
+
+        /** Регистрирует цепочку расчётов для заданного типа сущности. */
+        void regPipeline(const std::type_info * entityType, CalcPipeline && pipeline);
+
     private:
-        TypeHash<Pipeline> _pipelines; ///< Конвеер расчётов для каджого типа сущностей
+        TypeHash<CalcPipeline> _pipelines; ///< Конвеер расчётов для каджого типа сущностей
 };
 
 } // namespace sp

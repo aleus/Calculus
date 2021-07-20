@@ -1,7 +1,7 @@
 /// @author M. A. Serebrennikov
 #pragma once
 
-#include "CalcEntity.h"
+#include "CalcForward.h"
 
 #include <memory>
 #include <vector>
@@ -15,7 +15,7 @@ namespace sp {
 class CalcBlock
 {
     public:
-        virtual ~CalcBlock() = 0;
+        virtual ~CalcBlock() = default;
 
         /**
          * @brief Возвращает список сущностей, которые будут затронуты расчётом
@@ -30,7 +30,5 @@ class CalcBlock
         /** Проводит расчёты над сущностями. */
         virtual void calc(const std::vector<CalcEntityPtr> & entities) const = 0;
 };
-
-using CalcBlockUPtr = std::unique_ptr<CalcBlock>;
 
 } // namespace sp

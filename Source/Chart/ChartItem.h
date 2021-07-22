@@ -30,7 +30,6 @@ class ChartItem : public QNanoQuickItem
         //----------------------------------------------------------------------
         inline const auto & chartData() const { return _chartData; }
         inline ChartData * chartDataRaw() const { return _chartData.get(); }
-        inline auto dirtyFlag() const { return _dirtyFlag; }
         inline int pointSize() const { return _pointSize; }
 
         inline auto xShift() const { return _xShift; }
@@ -75,7 +74,6 @@ class ChartItem : public QNanoQuickItem
         qreal _xScale = 1.0;
         qreal _yScale = 1.0;
         int _pointSize = 0;
-        bool _dirtyFlag = true; // Set in HelloItemPainter
 };
 
 } // namespace sp {

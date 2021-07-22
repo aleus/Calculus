@@ -10,7 +10,7 @@ Item {
     property alias hovered: mouseArea.containsMouse
     signal clicked
 
-    height: Consts.buttonHeight
+    implicitHeight: Consts.buttonHeight
 
     Rectangle {
         id: backgroundHovered

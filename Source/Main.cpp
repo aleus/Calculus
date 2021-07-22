@@ -1,7 +1,8 @@
 /// @author M. A. Serebrennikov
-#include "Core/Platform.h"
+#include "CalcExample/ChartEntityManager.h"
 #include "Chart/ChartItem.h"
-#include "CalcExample/ExampleChartManager.h"
+#include "Core/UndoStack.h"
+#include "Core/Platform.h"
 
 #include <WindowFramelessHelper.h>
 
@@ -20,10 +21,11 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     QQmlContext *context = engine.rootContext();
 
-    auto * exampleChartManager = new ExampleChartManager(&engine);
+    auto * exampleChartManager = new ChartEntityManager(&engine);
 
     context->setContextProperty("dp", Platform::dp());
     context->setContextProperty("ExampleChartManager", exampleChartManager);
+    context->setContextProperty("UndoStack", &UndoStackI);
 
     qmlRegisterType<ChartItem>("Rogii", 1, 0, "ChartItem");
 

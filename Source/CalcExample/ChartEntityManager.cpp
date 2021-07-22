@@ -1,24 +1,26 @@
-#include "ExampleChartManager.h"
+#include "ChartEntityManager.h"
 #include "Core/Calc.h"
 
 namespace sp {
 
-ExampleChartManager::ExampleChartManager(QObject * parent/* = nullptr*/)
+ChartEntityManager::ChartEntityManager(QObject * parent/* = nullptr*/)
     : QObject(parent)
-    , _top(std::make_shared<ExampleChartEntity>())
-    , _middle(std::make_shared<ExampleChartEntity>())
-    , _right(std::make_shared<ExampleChartEntity>())
+    , _top(std::make_shared<ChartEntity>())
+    , _middle(std::make_shared<ChartEntity>())
+    , _right(std::make_shared<ChartEntity>())
 {
     // Здесь приведён пример расчёта через механизм Calc
     const size_t debugCount = 10000;
 
     _top->hasSin(true)
         ->count(debugCount);
+
     _middle->hasSin(true)
            ->hasRand(true)
-           ->setCount(debugCount);
+           ->count(debugCount);
+
     _right->hasRand(true)
-          ->setCount(debugCount);
+          ->count(debugCount);
 
     CalcI.calc({_top, _middle, _right});
 }

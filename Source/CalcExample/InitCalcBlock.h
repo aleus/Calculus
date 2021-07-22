@@ -6,10 +6,10 @@
 namespace sp {
 
 /***************************************************************************//**
- * @brief Класс SinCalcBlock заполняет точки ChartEntity функцией синуса.
+ * @brief Класс InitCalcBlock инициализирует ChartEntity.
  * @sa ChartEntity, ChartData
  ******************************************************************************/
-class SinCalcBlock : public CalcBlock
+class InitCalcBlock : public CalcBlock
 {
     public:
         void calc(const std::vector<CalcEntityPtr> & entities) const override;

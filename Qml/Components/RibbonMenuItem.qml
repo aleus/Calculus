@@ -27,7 +27,6 @@ Item {
     Text {
         id: textItem
 
-        text: ribbonMenuItem
         color: Colors.ribbonMenuText
         font {
             capitalization: Font.AllUppercase

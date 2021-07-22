@@ -1,7 +1,6 @@
-#include "ExampleChartEntity.h"
+#include "ChartEntity.h"
 #include "RandCalcBlock.h"
 
-#include <QtGlobal>
 #include <random>
 
 namespace sp {
@@ -18,20 +17,20 @@ float getRandom()
 //------------------------------------------------------------------------------
 void RandCalcBlock::calc(const std::vector<CalcEntityPtr> & entities) const
 {
-    const double amplitude = 50;
+    const double amplitude = 50; // Debug!!! Отладочное значение
 
     for (auto & entity: entities) {
-        auto chartEntity = std::dynamic_pointer_cast<ExampleChartEntity>(entity);
-        Q_ASSERT_X(chartEntity, "RandCalcBlock", "Entity isn't a ExampleChartEntity");
+        auto chartEntity = std::dynamic_pointer_cast<ChartEntity>(entity);
+        Q_ASSERT_X(chartEntity, "RandCalcBlock", "Entity isn't a ChartEntity");
 
         if (chartEntity && chartEntity->hasRand()) {
-            auto points = chartEntity->points();
+            auto points = chartEntity->chartData()->points();
 
             for (size_t i = 0, count = points.size(); i<count; ++i) {
                 points[i] += amplitude*getRandom();
             }
 
-            chartEntity->setPoints(std::move(points));
+            chartEntity->chartData()->setPoints(std::move(points));
         }
     }
 }

@@ -6,7 +6,8 @@
 namespace sp {
 
 /***************************************************************************//**
- * @brief Класс RandCalcBlock добавляет к точками ChardData случайное смещение.
+ * @brief Класс RandCalcBlock добавляет к точками ChartEntity случайное смещение.
+ * @sa ChartEntity, ChartData
  ******************************************************************************/
 class RandCalcBlock : public CalcBlock
 {

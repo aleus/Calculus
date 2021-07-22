@@ -15,7 +15,7 @@ namespace sp {
 class CalcBlock
 {
     public:
-        virtual ~CalcBlock() = default;
+        virtual ~CalcBlock() = 0;
 
         /**
          * @brief Возвращает список сущностей, которые будут затронуты расчётом

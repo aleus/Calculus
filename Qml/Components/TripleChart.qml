@@ -7,6 +7,8 @@ Item {
     id: tripleChart
 
     property var currentChart: middleChart
+    property var chartEntity: ExampleChartManager.middle
+
     property alias topChart: topChart
     property alias middleChart: middleChart
     property alias rightChart: rightChart
@@ -16,7 +18,7 @@ Item {
     ChartItem {
         id: topChart
 
-        chartData: ExampleChartManager.top
+        chartData: ExampleChartManager.top.chartData
         height: 0.3 * parent.height
         anchors {
             top: parent.topr
@@ -33,6 +35,7 @@ Item {
                     lastY = mouse.y;
                 }
                 currentChart = topChart;
+                chartEntity = ExampleChartManager.top;
             }
 
             onPositionChanged: {
@@ -61,7 +64,7 @@ Item {
     ChartItem {
         id: middleChart
 
-        chartData: ExampleChartManager.middle
+        chartData: ExampleChartManager.middle.chartData
         anchors {
             top: topChart.bottom
             left: parent.left
@@ -78,6 +81,7 @@ Item {
                     lastY = mouse.y;
                 }
                 currentChart = middleChart;
+                chartEntity = ExampleChartManager.middle;
             }
 
             onPositionChanged: {
@@ -111,7 +115,7 @@ Item {
     ChartItem {
         id: rightChart
 
-        chartData: ExampleChartManager.right
+        chartData: ExampleChartManager.right.chartData
         width: 0.3 * parent.width
         anchors {
             top: topChart.bottom
@@ -128,6 +132,7 @@ Item {
                     lastY = mouse.y;
                 }
                 currentChart = rightChart;
+                chartEntity = ExampleChartManager.right;
             }
 
             onPositionChanged: {

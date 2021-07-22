@@ -2,4 +2,8 @@
 
 namespace sp {
 
+CalcEntity::~CalcEntity()
+{
+}
+
 } // namespace sp

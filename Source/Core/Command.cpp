@@ -2,4 +2,9 @@
 
 namespace sp {
 
+Command::~Command()
+{
+
+}
+
 } // namespace sp {

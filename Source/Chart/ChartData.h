@@ -21,17 +21,18 @@ class ChartData : public QObject, public std::enable_shared_from_this<ChartData>
         //----------------------------------------------------------------------
         // SET
         //----------------------------------------------------------------------
-        void setCount(size_t count);
-        inline ChartData * count(size_t count) { setCount(count); return this; };
-
         void setPoints(std::valarray<double> && points);
         void setPoints(const std::valarray<double> & points);
+
+    signals:
+        void updated();
 
     private:
         std::valarray<double> _points;
 };
 
 using ChartDataPtr = std::shared_ptr<ChartData>;
+using ChartDataWeak = std::weak_ptr<ChartData>;
 
 } // namespace sp {
 

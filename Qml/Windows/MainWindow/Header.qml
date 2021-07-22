@@ -2,9 +2,12 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import "qrc:/"
+import "qrc:/Components"
 
 Rectangle {
     id: header
+
+    readonly property int leftContentWidth: titleItem.x + titleItem.width
 
     color: Colors.headerBackground
     height: Consts.headerHeight

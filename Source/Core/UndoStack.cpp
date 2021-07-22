@@ -2,14 +2,25 @@
 
 namespace sp {
 
+UndoStack & UndoStack::instance()
+{
+    static UndoStack result;
+    return result;
+}
+
+//------------------------------------------------------------------------------
 void UndoStack::add(CommandUPtr && command)
 {
-    ++_index;
-    _stack.resize(_index + 1);
-    _stack[_index] = std::move(command);
+    if (command->redo()) {
+        ++_index;
+        _stack.resize(_index + 1);
+        _stack[_index] = std::move(command);
 
-    emit canUndoChanged();
-    emit canRedoChanged();
+        emit canUndoChanged();
+        emit canRedoChanged();
+    } else {
+        command->undo();
+    }
 }
 
 //------------------------------------------------------------------------------

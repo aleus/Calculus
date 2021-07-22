@@ -24,11 +24,43 @@ Window {
         Component.onCompleted: {
             addIncludeItem(header);
             addExcludeItem(headerButtons);
+            addExcludeItem(undoRedoButtons);
         }
     }
 
     Header {
         id: header
+    }
+
+    Row {
+        id: undoRedoButtons
+
+        anchors {
+            left: header.left
+            leftMargin: header.leftContentWidth + Consts.margin
+            verticalCenter: header.verticalCenter
+        }
+        height: undoButton.height
+
+        ButtonText {
+            id: undoButton
+            text: qsTr("Undo")
+            textColor: Colors.white
+            enabled: UndoStack.canUndo
+            onClicked: {
+                UndoStack.undo();
+            }
+        }
+
+        ButtonText {
+            id: redoButton
+            text: qsTr("Redo")
+            textColor: Colors.white
+            enabled: UndoStack.canRedo
+            onClicked: {
+                UndoStack.redo();
+            }
+        }
     }
 
     HeaderButtons {
@@ -41,6 +73,7 @@ Window {
 
         FileMenu {
             chartItem: tripleChart.currentChart
+            chartEntity: tripleChart.chartEntity
         }
         RibbonMenuItem {
             id: viewItem

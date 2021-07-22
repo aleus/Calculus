@@ -4,8 +4,6 @@
 #include "ChartData.h"
 #include "Core/Calc.h"
 
-#include <QDebug>
-
 using namespace sp;
 
 //------------------------------------------------------------------------------
@@ -20,8 +18,15 @@ ChartItem::ChartItem(QQuickItem *parent)
 void ChartItem::setChartData(const ChartDataPtr & chartData)
 {
     if (_chartData != chartData) {
+        if (_chartData) {
+            _chartData->disconnect(this);
+        }
+
         _chartData = chartData;
+
         update();
+        connect(_chartData.get(), &ChartData::updated, this, &ChartItem::update);
+
         emit chartDataChanged();
     }
 }
@@ -84,7 +89,6 @@ void ChartItem::setPointSize(int pointSize)
 //------------------------------------------------------------------------------
 void ChartItem::onAfterSync()
 {
-    _dirtyFlag = false;
 }
 
 //------------------------------------------------------------------------------

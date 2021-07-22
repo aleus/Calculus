@@ -8,7 +8,7 @@
 
 namespace sp {
 
-#define UndoStackI UndoStackI::instance();
+#define UndoStackI UndoStack::instance()
 
 /***************************************************************************//**
  * @brief UndoStack хранит стек комманд для отмены.
@@ -21,6 +21,8 @@ class UndoStack: public QObject
     Q_PROPERTY(bool canRedo READ canRedo NOTIFY canRedoChanged)
 
     public:
+        static UndoStack & instance();
+
         /** Добавляет в конец стека команду. */
         void add(CommandUPtr && command);
 
@@ -31,13 +33,17 @@ class UndoStack: public QObject
         bool canRedo();
 
         /** Отменяет последнюю команду. */
-        void undo();
+        Q_INVOKABLE void undo();
 
         /** Повторяет последнюю отменённую команду. */
-        void redo();
+        Q_INVOKABLE void redo();
 
         /** Очищает стек отмен. */
         void clear();
+
+    private:
+        UndoStack() = default;
+        Q_DISABLE_COPY_MOVE(UndoStack);
 
     signals:
         void canUndoChanged();

@@ -1,6 +1,8 @@
 /// @author M. A. Serebrennikov
 #pragma once
 
+#include "ChartData.h"
+
 #include <qnanoquickitempainter.h>
 #include <memory>
 #include <valarray>
@@ -20,7 +22,7 @@ class ChartItemPainter : public QNanoQuickItemPainter
         void synchronize(QNanoQuickItem *item) override;
 
     private:
-        std::valarray<double> _points;
+        ChartDataWeak _chartData;
         qreal _xShift = 0.0;
         qreal _yShift = 0.0;
         qreal _xScale = 1.0;

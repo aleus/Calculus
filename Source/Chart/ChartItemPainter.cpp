@@ -3,14 +3,11 @@
 #include "ChartItem.h"
 #include "ChartItemPainter.h"
 
-#include <QDebug>
-
 using namespace sp;
 
 void ChartItemPainter::paint(QNanoPainter *p)
 {
     qreal dx = 0.2;
-    qreal dy = 0.0;
     qreal x0 = _xShift;
     qreal y0 = height()/2 + _yShift;
 
@@ -18,12 +15,14 @@ void ChartItemPainter::paint(QNanoPainter *p)
     p->setStrokeStyle("#202020");
     p->setLineWidth(1);
 
+    auto chartData = _chartData.lock();
+
     {
         p->beginPath();
         qreal x = x0;
         qreal y = y0;
         p->moveTo(x, y);
-        for (auto point: _points) {
+        for (auto point: chartData->points()) {
             p->lineTo(x+=dx*_xScale, _yScale*point + y);
         }
         p->stroke();
@@ -34,7 +33,7 @@ void ChartItemPainter::paint(QNanoPainter *p)
         qreal x = x0;
         qreal y = y0;
 
-        for (auto point: _points) {
+        for (auto point: chartData->points()) {
             p->circle(x+=dx*_xScale, _yScale*point + y, _pointSize);
         }
         p->setFillStyle("#fd8c2f");
@@ -49,9 +48,7 @@ void ChartItemPainter::synchronize(QNanoQuickItem *item)
 {
     auto chartItem = dynamic_cast<ChartItem*>(item);
 
-    if (chartItem->dirtyFlag() && chartItem->chartData()) {
-        _points = chartItem->chartData()->points();
-    }
+    _chartData = chartItem->chartData();
 
     _xShift = chartItem->xShift();
     _yShift = chartItem->yShift();

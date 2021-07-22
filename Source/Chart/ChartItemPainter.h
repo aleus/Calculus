@@ -26,8 +26,7 @@ class ChartItemPainter : public QNanoQuickItemPainter
         qreal _xScale = 1.0;
         qreal _yScale = 1.0;
         int _pointSize = 0.0;
-        bool _dirtyFlag;
-        bool _rotate;
+        bool _dirtyFlag = true;
 };
 
 } // namespace sp {

@@ -9,10 +9,10 @@ using namespace sp;
 
 void ChartItemPainter::paint(QNanoPainter *p)
 {
-    qreal dx = !_rotate ? 0.2 : 0.0;
-    qreal dy = !_rotate ? 0.0 : 0.2;
-    qreal x0 = !_rotate ? _xShift              : width()/2 + _xShift;
-    qreal y0 = !_rotate ? height()/2 + _yShift : _yShift;
+    qreal dx = 0.2;
+    qreal dy = 0.0;
+    qreal x0 = _xShift;
+    qreal y0 = height()/2 + _yShift;
 
     // Paint the background circle
     p->setStrokeStyle("#202020");
@@ -24,11 +24,7 @@ void ChartItemPainter::paint(QNanoPainter *p)
         qreal y = y0;
         p->moveTo(x, y);
         for (auto point: _points) {
-            if (!_rotate) {
-                p->lineTo(x+=dx*_xScale, _yScale*point + y);
-            } else {
-                p->lineTo(_xScale*point + x, y+=dy*_yScale);
-            }
+            p->lineTo(x+=dx*_xScale, _yScale*point + y);
         }
         p->stroke();
     }
@@ -39,11 +35,7 @@ void ChartItemPainter::paint(QNanoPainter *p)
         qreal y = y0;
 
         for (auto point: _points) {
-            if (!_rotate) {
-                p->circle(x+=dx*_xScale, _yScale*point + y, _pointSize);
-            } else {
-                p->circle(_xScale*point + x, y+=dy*_yScale, _pointSize);
-            }
+            p->circle(x+=dx*_xScale, _yScale*point + y, _pointSize);
         }
         p->setFillStyle("#fd8c2f");
         p->setStrokeStyle("#fd8c2f");
@@ -56,9 +48,8 @@ void ChartItemPainter::paint(QNanoPainter *p)
 void ChartItemPainter::synchronize(QNanoQuickItem *item)
 {
     auto chartItem = dynamic_cast<ChartItem*>(item);
-    Q_ASSUME(chartItem);
 
-    if (chartItem->dirtyFlag()) {
+    if (chartItem->dirtyFlag() && chartItem->chartData()) {
         _points = chartItem->chartData()->points();
     }
 
@@ -67,7 +58,6 @@ void ChartItemPainter::synchronize(QNanoQuickItem *item)
     _xScale = chartItem->xScale();
     _yScale = chartItem->yScale();
     _pointSize = chartItem->pointSize();
-    _rotate = chartItem->rotate();
 
     chartItem->onAfterSync();
 }

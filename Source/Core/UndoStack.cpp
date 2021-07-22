@@ -2,7 +2,7 @@
 
 namespace sp {
 
-void UndoStack::add(CommandPtr && command)
+void UndoStack::add(CommandUPtr && command)
 {
     ++_index;
     _stack.resize(_index + 1);

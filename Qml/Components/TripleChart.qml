@@ -16,7 +16,8 @@ Item {
     ChartItem {
         id: topChart
 
-        height: 150*dp
+        chartData: ExampleChartManager.top
+        height: 0.3 * parent.height
         anchors {
             top: parent.topr
             left: parent.left
@@ -50,12 +51,9 @@ Item {
             }
 
             onWheel: {
-                if (!(wheel.modifiers & Qt.ControlModifier)) {
-                    topChart.yScale += wheel.angleDelta.y*0.001;
-                } else {
-                    middleChart.xScale += wheel.angleDelta.y*0.001;
-                    topChart.xScale += wheel.angleDelta.y*0.001;
-                }
+                topChart.xScale += wheel.angleDelta.y*0.001;
+                middleChart.xScale += wheel.angleDelta.y*0.001;
+                rightChart.xScale += wheel.angleDelta.y*0.001;
             }
         }
     } // ChartItem { id: topChart
@@ -63,7 +61,7 @@ Item {
     ChartItem {
         id: middleChart
 
-        yShift: -200
+        chartData: ExampleChartManager.middle
         anchors {
             top: topChart.bottom
             left: parent.left
@@ -99,13 +97,13 @@ Item {
             }
 
             onWheel: {
-                if (!(wheel.modifiers & Qt.ControlModifier)) {
-                    middleChart.yScale += wheel.angleDelta.y*0.0005;
-                    rightChart.yScale += wheel.angleDelta.y*0.0005;
-                } else {
-                    middleChart.xScale += wheel.angleDelta.y*0.001;
-                    topChart.xScale += wheel.angleDelta.y*0.001;
-                }
+                topChart.yScale += wheel.angleDelta.y*0.001;
+                middleChart.yScale += wheel.angleDelta.y*0.0005;
+                rightChart.yScale += wheel.angleDelta.y*0.0005;
+
+                topChart.xScale += wheel.angleDelta.y*0.001;
+                middleChart.xScale += wheel.angleDelta.y*0.001;
+                rightChart.xScale += wheel.angleDelta.y*0.0001;
             }
         }
     } // ChartItem { id: middleChart
@@ -113,8 +111,8 @@ Item {
     ChartItem {
         id: rightChart
 
-        width: 150*dp
-        rotate: true
+        chartData: ExampleChartManager.right
+        width: 0.3 * parent.width
         anchors {
             top: topChart.bottom
             right: parent.right
@@ -148,12 +146,9 @@ Item {
             }
 
             onWheel: {
-                if (!(wheel.modifiers & Qt.ControlModifier)) {
-                    middleChart.yScale += wheel.angleDelta.y*0.001;
-                    rightChart.yScale += wheel.angleDelta.y*0.001;
-                } else {
-                    rightChart.xScale += wheel.angleDelta.y*0.001;
-                }
+                topChart.yScale += wheel.angleDelta.y*0.001;
+                middleChart.yScale += wheel.angleDelta.y*0.001;
+                rightChart.yScale += wheel.angleDelta.y*0.001;
             }
         }
     } // ChartItem { id: rightChart

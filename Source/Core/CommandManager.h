@@ -28,13 +28,13 @@ class CommandManager
         CommandManager() = default;
 
         /** Добавляет команду в стек отмен. Перед добавлением, выполняет redo. */
-        void add(CommandPtr && command);
+        void add(CommandUPtr && command);
 
         /**
          * Добавляет команду в стек отмен. Перед добавлением, выполняет redo
          * и отправляет на расчёт связанные entities.
          */
-        void add(CommandPtr && command, const std::vector<CalcEntityPtr> & entities);
+        void add(CommandUPtr && command, const std::vector<CalcEntityPtr> & entities);
 
     private:
         UndoStack _undoStack;

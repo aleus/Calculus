@@ -23,7 +23,6 @@ class Command
         Q_DISABLE_COPY_MOVE(Command)
 };
 
-using CommandPtr = std::shared_ptr<Command>;
-using CommandWeak = std::weak_ptr<Command>;
+using CommandUPtr = std::unique_ptr<Command>;
 
 } // namespace sp

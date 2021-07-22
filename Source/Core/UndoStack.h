@@ -22,7 +22,7 @@ class UndoStack: public QObject
 
     public:
         /** Добавляет в конец стека команду. */
-        void add(CommandPtr && command);
+        void add(CommandUPtr && command);
 
         /** Возвращает true, если можно отменить команду. */
         bool canUndo();
@@ -44,7 +44,7 @@ class UndoStack: public QObject
         void canRedoChanged();
 
     private:
-        std::vector<CommandPtr> _stack;
+        std::vector<CommandUPtr> _stack;
         int _index = -1;
 };
 

@@ -1,6 +1,7 @@
 /// @author M. A. Serebrennikov
 #include "Core/Platform.h"
-#include "CalcExample/ChartItem.h"
+#include "Chart/ChartItem.h"
+#include "CalcExample/ExampleChartManager.h"
 
 #include <WindowFramelessHelper.h>
 
@@ -18,13 +19,17 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     QQmlContext *context = engine.rootContext();
-    engine.addImportPath("qrc:///");
+
+    auto * exampleChartManager = new ExampleChartManager(&engine);
 
     context->setContextProperty("dp", Platform::dp());
+    context->setContextProperty("ExampleChartManager", exampleChartManager);
+
     qmlRegisterType<ChartItem>("Rogii", 1, 0, "ChartItem");
 
-    const QUrl url(QStringLiteral("qrc:/Root.qml"));
-    engine.load(url);
+    engine.addImportPath("qrc:///");
+    engine.load(QStringLiteral("qrc:/Root.qml"));
 
-    return app.exec();
+    app.exec();
+    return 0;
 }

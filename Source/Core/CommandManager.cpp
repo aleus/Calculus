@@ -10,14 +10,14 @@ CommandManager & CommandManager::instance()
 }
 
 //------------------------------------------------------------------------------
-void CommandManager::add(CommandPtr && command)
+void CommandManager::add(CommandUPtr && command)
 {
     command->redo();
     _undoStack.add(std::move(command));
 }
 
 //------------------------------------------------------------------------------
-void CommandManager::add(CommandPtr && command, const std::vector<CalcEntityPtr> & entities)
+void CommandManager::add(CommandUPtr && command, const std::vector<CalcEntityPtr> & entities)
 {
     command->redo();
 

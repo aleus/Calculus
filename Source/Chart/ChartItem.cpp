@@ -11,17 +11,25 @@ using namespace sp;
 //------------------------------------------------------------------------------
 ChartItem::ChartItem(QQuickItem *parent)
     : QNanoQuickItem(parent)
-    , _chartData(std::make_shared<ChartData>())
 {
     connect(this, &ChartItem::pointSizeChanged, this, &ChartItem::update);
 
-    // Debug!!! Здесь приведён пример расчёта через механизм Calc
-    {
-        const size_t debugCount = 10000;
-        _chartData->setCount(debugCount);
+}
 
-        CalcI.calc({_chartData});
+//------------------------------------------------------------------------------
+void ChartItem::setChartData(const ChartDataPtr & chartData)
+{
+    if (_chartData != chartData) {
+        _chartData = chartData;
+        update();
+        emit chartDataChanged();
     }
+}
+
+//------------------------------------------------------------------------------
+void ChartItem::setChartDataRaw(ChartData * chartData)
+{
+    setChartData(chartData->shared_from_this());
 }
 
 //------------------------------------------------------------------------------
@@ -70,16 +78,6 @@ void ChartItem::setPointSize(int pointSize)
     if (_pointSize != pointSize) {
         _pointSize = pointSize;
         emit pointSizeChanged();
-    }
-}
-
-//------------------------------------------------------------------------------
-void ChartItem::setRotate(bool rotate)
-{
-    if (_rotate != rotate) {
-        _rotate = rotate;
-        update();
-        emit rotateChanged();
     }
 }
 

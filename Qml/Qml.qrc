@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Root.qml</file>
+        <file>Colors.qml</file>
+        <file>Consts.qml</file>
+        <file>qmldir</file>
+        <file>Windows/MainWindow.qml</file>
+        <file>Windows/MainWindow/Header.qml</file>
+        <file>Components/ButtonImage.qml</file>
+        <file>Windows/MainWindow/HeaderButtons.qml</file>
+        <file>Components/RibbonMenu.qml</file>
+        <file>Components/RibbonMenuItem.qml</file>
+        <file>Windows/MainWindow/FileMenu.qml</file>
+        <file>Components/CheckBox.qml</file>
+        <file>Components/ComboBox.qml</file>
+        <file>Components/TripleChart.qml</file>
+        <file>Windows/MainWindow/PointsComboBox.qml</file>
+        <file>Components/ButtonText.qml</file>
+    </qresource>
+</RCC>

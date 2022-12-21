@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Icons/Maximize.png</file>
+        <file>Icons/Exit.png</file>
+        <file>Icons/Minimize.png</file>
+        <file>Icons/Normalize.png</file>
+        <file>Icons/ExitHovered.png</file>
+        <file>Icons/MaximizeHovered.png</file>
+        <file>Icons/MinimizeHovered.png</file>
+        <file>Icons/NormalizeHovered.png</file>
+        <file>Icons/Logo.png</file>
+        <file>Icons/FakeSave.png</file>
+        <file>Icons/FakeChecked.png</file>
+        <file>Icons/FakeIndicator.png</file>
+    </qresource>
+</RCC>
